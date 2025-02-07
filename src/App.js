@@ -9,8 +9,8 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <div>
-        <h1>Offline Data Entry</h1>
+      <div className="container">
+        <h1 >Offline Data Entry</h1>
         <UserForm />
         <UserList />
       </div>

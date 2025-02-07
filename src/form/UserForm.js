@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import db from "./database";
 import { syncData } from "./sync";
+import "./style.css";
 
 function UserForm() {
-  const [name, setName] = useState("");
+  const [firstName, setFiestName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [age, setAge] = useState("");
+  const [phone, setPhone] = useState("");
 
   const queryClient = useQueryClient();
 
@@ -48,7 +51,7 @@ function UserForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const newUser = { name, age };
+    const newUser = { firstName, lastName, age, phone };
 
     if (navigator.onLine) {
       await saveOnline(newUser); // Store Data Offline
@@ -56,33 +59,60 @@ function UserForm() {
       await saveOffline(newUser); // Sync Data
     }
 
-    setName("");
-    setAge("");
+    setFiestName("");
+    setLastName("");
+    setAge(0);
+    setPhone("");
   };
 
   return (
-    <>
+    <div>
       <h2>User Form</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="form-container">
         <input
+          className="inputfield"
           type="text"
           min={3}
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Username"
+          value={firstName}
+          onChange={(e) => setFiestName(e.target.value)}
+          placeholder="First Name"
           required
         />
         <input
+          className="inputfield"
+          type="text"
+          min={3}
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          placeholder="Last Name"
+          required
+        />
+        <input
+          className="inputfield"
           type="number"
           value={age}
           min={1}
+          minLength={2}
+          maxLength={3}
           onChange={(e) => setAge(e.target.value)}
           placeholder="Age"
           required
         />
-        <button type="submit">Submit</button>
+
+        <input
+          className="inputfield"
+          type="text"
+          value={phone}
+          min={11}
+          onChange={(e) => setPhone(e.target.value)}
+          placeholder="Phone"
+          required
+        />
+        <button className="btn-submit" type="submit">
+          Submit
+        </button>
       </form>
-    </>
+    </div>
   );
 }
 

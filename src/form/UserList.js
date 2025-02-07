@@ -12,12 +12,12 @@ function UserList() {
     fetchUsers();
   }, []);
   return (
-    <div>
+    <div >
       <h2>Stored Users</h2>
       <ul>
         {users.map((user) => (
           <li key={user.id}>
-            {user.name} - {user.age}
+            {user.firstname} - {user.lastname} - {user.age} - {user.phone}
           </li>
         ))}
       </ul>
