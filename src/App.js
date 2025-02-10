@@ -1,7 +1,7 @@
 import "./App.css";
 import { QueryClient, QueryClientProvider } from "react-query";
-import UserList from "./form/UserList";
-import UserForm from "./form/UserForm";
+import UserList from "./components/UserList";
+import UserForm from "./components/UserForm";
 
 
 const queryClient = new QueryClient();
