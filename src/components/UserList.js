@@ -1,47 +1,32 @@
 import React, { useState, useEffect } from "react";
-import db from "./database";
+import db from "../components/database";
+import { syncData } from "./sync";
 
 function UserList() {
   const [users, setUsers] = useState([]);
+  const [products, setProducts] = useState([]);
 
-  const fetchUsers = async () => {
-    const storedUsers = await db.users.toArray();
-    setUsers(storedUsers);
-  };
   useEffect(() => {
-    
-    fetchUsers();
+    const fetchData = async () => {
+      setUsers(await db.users.toArray());
+      setProducts(await db.products.toArray());
+    };
+
+    fetchData();
+
+    if (navigator.onLine) {
+      syncData();
+    }
   }, []);
 
-  const deleteUser = async (id) => {
-    try {
-      await db.users.delete(id);
-      console.log(`Deleted user with ID: ${id}`);
-      
-      fetchUsers();
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
   return (
     <div>
-      <h2>Stored Users</h2>
-      <ul>
-        {users.length > 0 ? (
-          users.map((user) => (
-            <li key={user.id}>
-              {user.firstName} - 
-              {user.lastName} -  
-              {user.age} years old -
-              {user.phone} -
-              {user.phone}
-              <button onClick={() => deleteUser(user.id)}>Delete</button>
-            </li>
-          ))
-        ) : (
-          <p>No users stored.</p>
-        )}
-      </ul>
+      <h2>Stored Users & Products</h2>
+      <h3>Users</h3>
+      <ul>{users.map((u) => <li key={u.id}>{u.name} (Age: {u.age})</li>)}</ul>
+      
+      <h3>Products</h3>
+      <ul>{products.map((p) => <li key={p.id}>{p.productName} - ${p.price}</li>)}</ul>
     </div>
   );
 }

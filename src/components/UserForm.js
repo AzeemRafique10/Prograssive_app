@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import db from "./database";
@@ -5,10 +6,8 @@ import { syncData } from "./sync";
 import "./style.css";
 
 function UserForm() {
-  const [firstName, setFiestName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [name, setName] = useState("");
   const [age, setAge] = useState("");
-  const [phone, setPhone] = useState("");
 
   const queryClient = useQueryClient();
 
@@ -27,11 +26,10 @@ function UserForm() {
 
   const saveOnline = async (user) => {
     try {
-      console.log("Sava Online User: ", user);
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      console.log("Data Sucessfully Save Online");
+      const response = await axios.post("http://localhost:5000/api/users", user);
+      console.log("User saved online:", response.data);
     } catch (error) {
-      console.log("Error saving online: ", error);
+      console.error("Error saving user online:", error.response?.data || error.message);
     }
   };
 
@@ -41,29 +39,27 @@ function UserForm() {
     },
   });
 
-  //   Check for Internet Rotation and sync data
-
+  // Sync data when back online
   useEffect(() => {
     if (navigator.onLine) {
-      mutation.mutate();
+      syncData();
     }
   }, [navigator.onLine]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const newUser = { firstName, lastName, age, phone };
-
+    const newUser = { name, age: Number(age) }; // Convert age to number
+  
     if (navigator.onLine) {
-      await saveOnline(newUser); // Store Data Offline
+      await saveOnline(newUser);
     } else {
-      await saveOffline(newUser); // Sync Data
+      await saveOffline(newUser);
     }
-
-    setFiestName("");
-    setLastName("");
-    setAge(0);
-    setPhone("");
+  
+    setName("");
+    setAge(""); // Keep the input clear instead of setting it to 0
   };
+  
 
   return (
     <div>
@@ -73,20 +69,12 @@ function UserForm() {
           className="inputfield"
           type="text"
           min={3}
-          value={firstName}
-          onChange={(e) => setFiestName(e.target.value)}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           placeholder="First Name"
           required
         />
-        <input
-          className="inputfield"
-          type="text"
-          min={3}
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-          placeholder="Last Name"
-          required
-        />
+
         <input
           className="inputfield"
           type="number"
@@ -96,16 +84,6 @@ function UserForm() {
           maxLength={3}
           onChange={(e) => setAge(e.target.value)}
           placeholder="Age"
-          required
-        />
-
-        <input
-          className="inputfield"
-          type="text"
-          value={phone}
-          min={11}
-          onChange={(e) => setPhone(e.target.value)}
-          placeholder="Phone"
           required
         />
         <button className="btn-submit" type="submit">
