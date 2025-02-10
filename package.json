@@ -4,9 +4,12 @@
   "private": true,
   "dependencies": {
     "cra-template-pwa": "2.0.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "dexie": "^4.0.11",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-query": "^4.0.0",
     "react-scripts": "5.0.1",
+    "vite-plugin-pwa": "^0.21.1",
     "web-vitals": "^4.2.4"
   },
   "scripts": {

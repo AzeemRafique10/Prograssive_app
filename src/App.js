@@ -1,13 +1,23 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import "./App.css";
+import UserForm from "./components/UserForm";
+import UserList from "./components/UserList";
+import { QueryClient, QueryClientProvider } from "react-query"
+
+
+
+// Create a QueryClient instance
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <div className="App">
-      <h1>PWA App</h1>
-      <p>This is a Progressive Web App (PWA).</p>
-      <input type="text" />
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <div className="App">
+        <h1>Offline Data Entry</h1>
+        <UserForm />
+        <UserList />
+      </div>
+    </QueryClientProvider>
   );
 }
 
