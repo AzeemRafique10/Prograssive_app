@@ -1,14 +1,4 @@
-<<<<<<< HEAD
-import React from "react";
-import "./App.css";
-import UserForm from "./components/UserForm";
-import UserList from "./components/UserList";
-import { QueryClient, QueryClientProvider } from "react-query"
 
-
-
-// Create a QueryClient instance
-=======
 import "./App.css";
 import { QueryClient, QueryClientProvider } from "react-query";
 import UserList from "./components/UserList";
@@ -17,7 +7,6 @@ import { useState } from "react";
 import ProductForm from "./forms/ProductForm";
 import DeleteForm from "./forms/DeleteForm";
 
->>>>>>> 8d5360369d3824fbf01adfee53e7b6715995e4dd
 const queryClient = new QueryClient();
 
 function App() {
@@ -28,12 +17,6 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-<<<<<<< HEAD
-      <div className="App">
-        <h1>Offline Data Entry</h1>
-        <UserForm />
-        <UserList />
-=======
       <div className="container">
         <h1>Offline Data Entry</h1>
         <div style={{ display: "flex", gap: 10 }}>
@@ -53,7 +36,6 @@ function App() {
         )}
 
         <UserList key={refresh} />
->>>>>>> 8d5360369d3824fbf01adfee53e7b6715995e4dd
       </div>
     </QueryClientProvider>
   );

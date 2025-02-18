@@ -1,19 +1,4 @@
 import db from "./database";
-<<<<<<< HEAD
-
-export const syncData = async () => {
-  console.log("Checking IndexedDB...");
-
-  try {
-    await db.open(); // Ensure DB is open before querying
-    const allUsers = await db.users.toArray(); // Ensure 'users' is defined
-
-    if (allUsers.length > 0) {
-      console.log("Syncing Data...", allUsers);
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      await db.users.clear();
-      console.log("Sync Completed, data cleared from IndexedDB");
-=======
 import axios from "axios";
 
 export const syncData = async () => {
@@ -34,19 +19,22 @@ export const syncData = async () => {
     // Sync Deletions
     const pendingDeletions = await db.deletions.toArray();
     for (let deletion of pendingDeletions) {
-      console.log(`Processing deletion for ${deletion.type} ID ${deletion.recordId}...`);
-      await axios.delete(`http://localhost:5000/api/${deletion.type}s/${deletion.recordId}`);
+      console.log(
+        `Processing deletion for ${deletion.type} ID ${deletion.recordId}...`
+      );
+      await axios.delete(
+        `http://localhost:5000/api/${deletion.type}s/${deletion.recordId}`
+      );
       await db.deletions.delete(deletion.id);
-      console.log(`Deletion of ${deletion.type} ID ${deletion.recordId} completed.`);
->>>>>>> 8d5360369d3824fbf01adfee53e7b6715995e4dd
+      console.log(
+        `Deletion of ${deletion.type} ID ${deletion.recordId} completed.`
+      );
     }
   } catch (error) {
     console.error("Sync Error:", error);
   }
 };
 
-<<<<<<< HEAD
-=======
 // Listen for internet reconnection
->>>>>>> 8d5360369d3824fbf01adfee53e7b6715995e4dd
+
 window.addEventListener("online", syncData);

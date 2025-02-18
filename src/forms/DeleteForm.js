@@ -12,14 +12,19 @@ const DeleteForm = ({ onDeleteSuccess }) => {
       alert("Please enter a valid username to delete.");
       return;
     }
-  
+
     if (navigator.onLine) {
       try {
         console.log("Sending DELETE request for:", recordId);
-        const response = await axios.delete(`http://localhost:5000/api/users/${recordId}`);
+        const response = await axios.delete(
+          `http://localhost:5000/api/users/${recordId}`
+        );
         console.log("Response:", response.data);
       } catch (error) {
-        console.error("Error deleting online:", error.response?.data || error.message);
+        console.error(
+          "Error deleting online:",
+          error.response?.data || error.message
+        );
       }
     } else {
       try {
@@ -29,21 +34,21 @@ const DeleteForm = ({ onDeleteSuccess }) => {
         console.error("Error storing offline deletion:", error);
       }
     }
-  
+
     onDeleteSuccess();
     setRecordId("");
   };
-  
-
-  
 
   return (
     <div>
       <h2>Delete {deleteType === "user" ? "User" : "Product"}</h2>
-      
+
       <label>
         Select Type:
-        <select value={deleteType} onChange={(e) => setDeleteType(e.target.value)}>
+        <select
+          value={deleteType}
+          onChange={(e) => setDeleteType(e.target.value)}
+        >
           <option value="user">User</option>
           <option value="product">Product</option>
         </select>
@@ -53,7 +58,7 @@ const DeleteForm = ({ onDeleteSuccess }) => {
         type="text"
         value={recordId}
         onChange={(e) => setRecordId(e.target.value)}
-        placeholder={`Enter ${deleteType} ID`}
+        placeholder={`Enter ${deleteType} Username`}
         required
       />
 
