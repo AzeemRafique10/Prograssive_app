@@ -4,6 +4,9 @@ import { useMutation, useQueryClient } from "react-query";
 import db from "./database";
 import { syncData } from "./sync";
 import "./style.css";
+import AntInput from "./Inputs/AntInput";
+import AntButton from "./Buttons/AntButton";
+// import AntButton from "./Buttons/AntButton";
 
 function UserForm() {
   const [name, setName] = useState("");
@@ -70,30 +73,31 @@ function UserForm() {
     <div>
       <h2>User Form</h2>
       <form onSubmit={handleSubmit} className="form-container">
-        <input
+        <AntInput
+          value={name}
+          placeholder="Name"
           className="inputfield"
           type="text"
-          min={3}
-          value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="First Name"
           required
         />
 
-        <input
+        <AntInput
           className="inputfield"
           type="number"
           value={age}
-          min={1}
-          minLength={2}
-          maxLength={3}
           onChange={(e) => setAge(e.target.value)}
           placeholder="Age"
           required
         />
-        <button className="btn-submit" type="submit">
-          Submit
-        </button>
+        <AntButton
+          label="Submit"
+          className="btn-submit"
+          type="submit"
+          htmlType="submit"
+          onClick={handleSubmit}
+          required
+        />
       </form>
     </div>
   );

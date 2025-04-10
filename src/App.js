@@ -1,4 +1,3 @@
-
 import "./App.css";
 import { QueryClient, QueryClientProvider } from "react-query";
 import UserList from "./components/UserList";
@@ -13,7 +12,7 @@ function App() {
   const [refresh, setRefresh] = useState(false);
   const [activeForm, setActiveForm] = useState("user"); // Toggle between forms
 
-  const handleRefresh  = () => setRefresh((prev) => !prev);
+  const handleRefresh = () => setRefresh((prev) => !prev);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -27,11 +26,7 @@ function App() {
 
         {activeForm === "user" ? (
           <UserForm onUserAdded={handleRefresh} />
-        ) 
-        // : activeForm === "product" ? (
-        //   <ProductForm onProductAdded={handleRefresh} />
-        // ) 
-        : (
+        ) : (
           <DeleteForm onDeleteSuccess={handleRefresh} />
         )}
 
