@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import db from "../components/database";
 import axios from "axios";
+import { Col, Row, Select } from "antd";
+import AntInput from "../components/Inputs/AntInput";
+import AntButton from "../components/Buttons/AntButton";
+import { Card } from "antd";
+
+const { Option } = Select;
 
 const DeleteForm = ({ onDeleteSuccess }) => {
   const [deleteType, setDeleteType] = useState("user");
@@ -40,32 +46,49 @@ const DeleteForm = ({ onDeleteSuccess }) => {
   };
 
   return (
-    <div>
-      <h2>Delete {deleteType === "user" ? "User" : "Product"}</h2>
+    <Card
+      title={`Delete ${deleteType === "user" ? "User" : "Product"}`}
+      style={{
+        maxWidth: 600,
+        margin: "30px auto",
+        padding: "24px",
+        boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+        borderRadius: "16px",
+      }}
+    >
+      <Row gutter={[16, 16]} align="middle">
+        <Col xs={24} sm={8}>
+          <Select
+            style={{ width: "100%" }}
+            value={deleteType}
+            onChange={(value) => setDeleteType(value)}
+          >
+            <Option value="user">User</Option>
+            <Option value="product">Product</Option>
+          </Select>
+        </Col>
 
-      <label>
-        Select Type:
-        <select
-          value={deleteType}
-          onChange={(e) => setDeleteType(e.target.value)}
-        >
-          <option value="user">User</option>
-          <option value="product">Product</option>
-        </select>
-      </label>
+        <Col xs={24} sm={16}>
+          <AntInput
+            style={{ width: 200 }}
+            value={recordId}
+            onChange={(e) => setRecordId(e.target.value)}
+            placeholder={`Enter ${deleteType} ID or username`}
+          />
+        </Col>
+      </Row>
 
-      <input
-        type="text"
-        value={recordId}
-        onChange={(e) => setRecordId(e.target.value)}
-        placeholder={`Enter ${deleteType} Username`}
-        required
-      />
-
-      <button onClick={handleDelete} disabled={!recordId || loading}>
-        {loading ? "Deleting..." : "Delete"}
-      </button>
-    </div>
+      <Row style={{ marginTop: 24 }}>
+        <Col span={24} style={{ textAlign: "right" }}>
+          <AntButton
+            onClick={handleDelete}
+            disabled={!recordId || loading}
+            label={loading ? "Deleting..." : "Delete"}
+            danger
+          />
+        </Col>
+      </Row>
+    </Card>
   );
 };
 

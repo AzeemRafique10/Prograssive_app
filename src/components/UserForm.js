@@ -4,10 +4,22 @@ import { useMutation, useQueryClient } from "react-query";
 import db from "./database";
 import { syncData } from "./sync";
 import "./style.css";
+import AntInput from "./Inputs/AntInput";
+import AntButton from "./Buttons/AntButton";
+import {
+  CheckCircleTwoTone,
+  LockTwoTone,
+  MailTwoTone,
+  UserOutlined,
+} from "@ant-design/icons";
+import { Card, Alert, Typography, Row, Col } from "antd";
+
+const { Text, Title } = Typography;
 
 function UserForm() {
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
+  const [alert, setAlert] = useState({ message: "", type: "" });
 
   const queryClient = useQueryClient();
 
@@ -31,7 +43,12 @@ function UserForm() {
         user
       );
       console.log("User saved online:", response.data);
+      setAlert({ message: "User saved Online successfully!", type: "success" });
     } catch (error) {
+      setAlert({
+        message: "Error saving user!",
+        type: "error",
+      });
       console.error(
         "Error saving user online:",
         error.response?.data || error.message
@@ -67,35 +84,63 @@ function UserForm() {
   };
 
   return (
-    <div>
-      <h2>User Form</h2>
+    <Card
+      title={<Title level={3}>User Form</Title>}
+      style={{
+        maxWidth: 600,
+        margin: "30px auto",
+        padding: "24px",
+        boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+        borderRadius: "16px",
+      }}
+    >
       <form onSubmit={handleSubmit} className="form-container">
-        <input
-          className="inputfield"
-          type="text"
-          min={3}
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="First Name"
-          required
-        />
-
-        <input
-          className="inputfield"
-          type="number"
-          value={age}
-          min={1}
-          minLength={2}
-          maxLength={3}
-          onChange={(e) => setAge(e.target.value)}
-          placeholder="Age"
-          required
-        />
-        <button className="btn-submit" type="submit">
-          Submit
-        </button>
+        {alert.message && (
+          <Alert
+            message={alert.message}
+            type={alert.type}
+            showIcon
+            closable
+            style={{ marginBottom: 16 }}
+          />
+        )}
+        <Row gutter={[0, 16]}>
+          <Col span={24}>
+            <AntInput
+              value={name}
+              placeholder="Name"
+              className="inputfield"
+              type="text"
+              onChange={(e) => setName(e.target.value)}
+              required
+              prefix={<MailTwoTone style={{ fontSize: 15 }} />}
+            />
+          </Col>
+          <Col span={24}>
+            <AntInput
+              className="inputfield"
+              type="number"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
+              placeholder="Age"
+              prefix={<LockTwoTone style={{ fontSize: 15 }} />}
+              required
+            />
+          </Col>
+          <Col span={24} style={{ textAlign: "right" }}>
+            <AntButton
+              label="Submit"
+              className="btn-submit"
+              type="submit"
+              htmlType="submit"
+              onClick={handleSubmit}
+              style={{ marginTop: 8 }}
+              required
+            />
+          </Col>
+        </Row>
       </form>
-    </div>
+    </Card>
   );
 }
 
