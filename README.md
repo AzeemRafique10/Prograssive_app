@@ -15,3 +15,5 @@
 ###### For backend
 
 `nodemon Server.js`
+
+##### Add your own .ENV file with api
