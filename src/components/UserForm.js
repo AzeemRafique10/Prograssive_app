@@ -7,6 +7,12 @@ import "./style.css";
 import AntInput from "./Inputs/AntInput";
 import AntButton from "./Buttons/AntButton";
 import { Alert } from "antd";
+import {
+  CheckCircleTwoTone,
+  LockTwoTone,
+  MailTwoTone,
+  UserOutlined,
+} from "@ant-design/icons";
 // import AntButton from "./Buttons/AntButton";
 
 function UserForm() {
@@ -80,7 +86,9 @@ function UserForm() {
     <div>
       <h2>User Form</h2>
       <form onSubmit={handleSubmit} className="form-container">
-        {alert.message && <Alert message={alert.message} type={alert.type} />}
+        {alert.message && (
+          <Alert message={alert.message} type={alert.type} showIcon closable />
+        )}
         <AntInput
           value={name}
           placeholder="Name"
@@ -88,6 +96,7 @@ function UserForm() {
           type="text"
           onChange={(e) => setName(e.target.value)}
           required
+          prefix={<MailTwoTone style={{ fontSize: 15 }} />}
         />
 
         <AntInput
@@ -96,6 +105,7 @@ function UserForm() {
           value={age}
           onChange={(e) => setAge(e.target.value)}
           placeholder="Age"
+          prefix={<LockTwoTone style={{ fontSize: 15 }} />}
           required
         />
         <AntButton

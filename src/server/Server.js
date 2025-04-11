@@ -23,6 +23,17 @@ const UserSchema = new mongoose.Schema({
 const User = mongoose.model("User", UserSchema);
 // const Product = mongoose.model("Product", ProductSchema);
 
+// Get all users
+app.get("/api/users", async (req, res) => {
+  try {
+    const users = await User.find();
+    res.status(200).json(users);
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Sync Offline Data
 app.post("/api/sync", async (req, res) => {
   try {
