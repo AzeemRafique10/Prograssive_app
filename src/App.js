@@ -5,6 +5,7 @@ import UserForm from "./components/UserForm";
 import { useState } from "react";
 import ProductForm from "./forms/ProductForm";
 import DeleteForm from "./forms/DeleteForm";
+import AntButton from "./components/Buttons/AntButton";
 
 const queryClient = new QueryClient();
 
@@ -17,11 +18,15 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="container">
-        <h1>Offline Data Entry</h1>
+        <h1>Online & Offline Data Entry</h1>
         <div style={{ display: "flex", gap: 10 }}>
-          <button onClick={() => setActiveForm("user")}>User Form</button>
+          <AntButton onClick={() => setActiveForm("user")} label="User Form" />
           {/* <button onClick={() => setActiveForm("product")}>Product Form</button> */}
-          <button onClick={() => setActiveForm("delete")}>Delete Form</button>
+          <AntButton
+            onClick={() => setActiveForm("delete")}
+            label="Delete User"
+            danger
+          />
         </div>
 
         {activeForm === "user" ? (

@@ -6,11 +6,13 @@ import { syncData } from "./sync";
 import "./style.css";
 import AntInput from "./Inputs/AntInput";
 import AntButton from "./Buttons/AntButton";
+import { Alert } from "antd";
 // import AntButton from "./Buttons/AntButton";
 
 function UserForm() {
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
+  const [alert, setAlert] = useState({ message: "", type: "" });
 
   const queryClient = useQueryClient();
 
@@ -34,7 +36,12 @@ function UserForm() {
         user
       );
       console.log("User saved online:", response.data);
+      setAlert({ message: "User saved Online successfully!", type: "success" });
     } catch (error) {
+      setAlert({
+        message: "Error saving user!",
+        type: "error",
+      });
       console.error(
         "Error saving user online:",
         error.response?.data || error.message
@@ -73,6 +80,7 @@ function UserForm() {
     <div>
       <h2>User Form</h2>
       <form onSubmit={handleSubmit} className="form-container">
+        {alert.message && <Alert message={alert.message} type={alert.type} />}
         <AntInput
           value={name}
           placeholder="Name"

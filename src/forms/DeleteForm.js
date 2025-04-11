@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import db from "../components/database";
 import axios from "axios";
+import { Select } from "antd";
+import AntInput from "../components/Inputs/AntInput";
+import AntButton from "../components/Buttons/AntButton";
 
 const DeleteForm = ({ onDeleteSuccess }) => {
   const [deleteType, setDeleteType] = useState("user");
@@ -44,17 +47,18 @@ const DeleteForm = ({ onDeleteSuccess }) => {
       <h2>Delete {deleteType === "user" ? "User" : "Product"}</h2>
 
       <label>
-        Select Type:
-        <select
+        Select Type:{"  "}
+        <Select
+          style={{ width: 100 }}
           value={deleteType}
           onChange={(e) => setDeleteType(e.target.value)}
         >
           <option value="user">User</option>
           <option value="product">Product</option>
-        </select>
+        </Select>
       </label>
 
-      <input
+      <AntInput
         type="text"
         value={recordId}
         onChange={(e) => setRecordId(e.target.value)}
@@ -62,9 +66,14 @@ const DeleteForm = ({ onDeleteSuccess }) => {
         required
       />
 
-      <button onClick={handleDelete} disabled={!recordId || loading}>
+      <AntButton
+        onClick={handleDelete}
+        disabled={!recordId || loading}
+        label="Delete"
+        danger
+      >
         {loading ? "Deleting..." : "Delete"}
-      </button>
+      </AntButton>
     </div>
   );
 };
