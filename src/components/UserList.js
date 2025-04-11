@@ -6,7 +6,7 @@ import { Card } from "antd";
 import { Avatar } from "antd";
 import AntButton from "./Buttons/AntButton";
 
-function UserList(reload) {
+function UserList({ reload }) {
   const [users, setUsers] = useState([]);
 
   const fetchList = async () => {

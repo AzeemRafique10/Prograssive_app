@@ -11,7 +11,7 @@ const queryClient = new QueryClient();
 
 function App() {
   const [refresh, setRefresh] = useState(false);
-  const [activeForm, setActiveForm] = useState("user"); // Toggle between forms
+  const [activeForm, setActiveForm] = useState("user");
 
   const handleRefresh = () => setRefresh((prev) => !prev);
 
@@ -35,7 +35,7 @@ function App() {
           <DeleteForm onDeleteSuccess={handleRefresh} />
         )}
 
-        <UserList key={refresh} />
+        <UserList reload={refresh} />
       </div>
     </QueryClientProvider>
   );
